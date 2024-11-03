@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "search_term_analyzer"
+version = "0.1.0"
+description = "Advanced search term analysis pipeline for Google Ads optimization"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    "numpy>=1.21.0",
+    "pandas>=1.3.0",
+    "scikit-learn>=1.0.0",
+    "spacy>=3.0.0",
+    "fastapi>=0.68.0",
+    "distributed>=2023.3.0",
+    "python-Levenshtein>=0.12.0",
+    "pydantic>=2.0.0",
+    "uvicorn>=0.15.0",
+    "python-jose[cryptography]>=3.3.0",
+    "psutil>=5.8.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=2.12.0",
+    "pytest-asyncio>=0.18.0",
+]
+dev = [
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "mypy>=0.910",
+    "ruff>=0.0.270",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
+
+[tool.ruff]
+select = ["E", "F", "B"]
+ignore = ["E501"]

@@ -1,0 +1,47 @@
+Timestamp: 11/3/2024
+
+C:.
+│   file-tree.txt
+│   pyproject.toml
+│   README.md
+│   requirements.txt
+│   setup.py
+│
+└───src
+    └───search_term_analyzer
+        ├───api
+        │       endpoints.py
+        │       models.py
+        │       server.py
+        │       __init__.py
+        │
+        ├───core
+        │       config.py
+        │       constants.py
+        │       exceptions.py
+        │       __init__.py
+        │
+        ├───distributed
+        │       client.py
+        │       worker.py
+        │       __init__.py
+        │
+        ├───models
+        │       analysis.py
+        │       experiments.py
+        │       feedback.py
+        │       metrics.py
+        │       __init__.py
+        │
+        ├───pipeline
+        │       analyzer.py
+        │       cache.py
+        │       optimizer.py
+        │       processor.py
+        │       __init__.py
+        │
+        └───utils
+                logging.py
+                monitoring.py
+                validation.py
+                __init__.py
