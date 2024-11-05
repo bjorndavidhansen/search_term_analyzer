@@ -1,18 +1,22 @@
-# src/search_term_analyzer/core/constants.py
-from typing import Dict, Set, FrozenSet
+"""
+Core constants and configuration values for the Search Term Analyzer.
+Contains system-wide settings, thresholds, and configuration values.
+"""
+
+from typing import Dict, FrozenSet, Set  # Keep Set for future use
 from datetime import timedelta
 from enum import Enum
 
 # System-wide constants
-VERSION = "0.1.0"
-DEFAULT_ENCODING = "utf-8"
-MAX_RETRIES = 3
+VERSION: str = "0.1.0"
+DEFAULT_ENCODING: str = "utf-8"
+MAX_RETRIES: int = 3
 
 # Timeouts and intervals (in seconds)
-DEFAULT_PLUGIN_TIMEOUT = 30
-DEFAULT_REQUEST_TIMEOUT = 60
-WORKER_HEALTH_CHECK_INTERVAL = 30
-METRICS_UPDATE_INTERVAL = 300  # 5 minutes
+DEFAULT_PLUGIN_TIMEOUT: int = 30
+DEFAULT_REQUEST_TIMEOUT: int = 60
+WORKER_HEALTH_CHECK_INTERVAL: int = 30
+METRICS_UPDATE_INTERVAL: int = 300  # 5 minutes
 CACHE_CLEANUP_INTERVAL = 3600  # 1 hour
 DEFAULT_BATCH_TIMEOUT = 300    # 5 minutes
 HEARTBEAT_INTERVAL = 10
@@ -22,7 +26,7 @@ MAX_BATCH_SIZE = 1000
 MIN_BATCH_SIZE = 1
 MAX_BATCH_RETRIES = 2
 DEFAULT_BATCH_PRIORITY = 0
-BATCH_PRIORITY_LEVELS = frozenset([0, 5, 10, 20])  # LOW, MEDIUM, HIGH, CRITICAL
+BATCH_PRIORITY_LEVELS: FrozenSet[int] = frozenset([0, 5, 10, 20])  # LOW, MEDIUM, HIGH, CRITICAL
 
 # Cache settings
 DEFAULT_CACHE_TTL = timedelta(hours=1)
@@ -43,6 +47,7 @@ TOKEN_EXPIRE_TIME = timedelta(hours=24)
 
 # Monitoring and logging
 class LogLevel(str, Enum):
+    """Logging level enumeration for the application."""
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -50,7 +55,10 @@ class LogLevel(str, Enum):
     CRITICAL = "CRITICAL"
 
 DEFAULT_LOG_LEVEL = LogLevel.INFO
-DEFAULT_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+DEFAULT_LOG_FORMAT = (
+    "%(asctime)s - %(name)s - "
+    "%(levelname)s - %(message)s"
+)
 
 # File paths and directories
 CONFIG_FILE_NAME = "search_term_analyzer.json"
@@ -75,8 +83,12 @@ VALID_ID_PATTERN = r"^[a-zA-Z0-9\-_]+$"
 
 # Error messages
 class ErrorMessages:
+    """Collection of standardized error messages used across the application."""
     INVALID_CONFIG = "Invalid configuration provided: {}"
-    INVALID_BATCH_SIZE = f"Batch size must be between {MIN_BATCH_SIZE} and {MAX_BATCH_SIZE}"
+    INVALID_BATCH_SIZE = (
+        f"Batch size must be between "
+        f"{MIN_BATCH_SIZE} and {MAX_BATCH_SIZE}"
+    )
     INVALID_CONFIDENCE = f"Confidence threshold must be between {MIN_CONFIDENCE_THRESHOLD} and {MAX_CONFIDENCE_THRESHOLD}"
     INVALID_TERM = "Invalid search term format"
     BATCH_NOT_FOUND = "Batch ID {} not found"
@@ -86,6 +98,7 @@ class ErrorMessages:
 
 # HTTP Status codes
 class HTTPStatus:
+    """HTTP status codes used throughout the application."""
     OK = 200
     CREATED = 201
     ACCEPTED = 202
@@ -99,6 +112,7 @@ class HTTPStatus:
 
 # Content types
 class ContentType:
+    """MIME content types supported by the API."""
     JSON = "application/json"
     TEXT = "text/plain"
     HTML = "text/html"
@@ -117,6 +131,7 @@ SALT_ROUNDS = 12
 
 # Metric names
 class MetricNames:
+    """Metric names for monitoring and tracking system performance."""
     BATCH_PROCESSING_TIME = "batch_processing_time"
     TERM_PROCESSING_TIME = "term_processing_time"
     CACHE_HIT_RATIO = "cache_hit_ratio"
@@ -148,19 +163,31 @@ DEFAULT_FEATURE_FLAGS: Dict[str, bool] = {
 
 # API Routes
 class APIRoutes:
-    BASE = "/api/v1"
-    HEALTH = "/health"
-    ANALYZE = "/analyze"
-    BATCH = "/batch"
-    METRICS = "/metrics"
-    WORKER = "/worker"
-    CONFIG = "/config"
-    AUTH = "/auth"
+    """API route definitions and route generation methods."""
+    
+    BASE: str = "/api/v1"
+    HEALTH: str = "/health"
+    BATCH: str = "/batch"
+    TERMS: str = "/terms"
+    ANALYSIS: str = "/analysis"
+    METRICS: str = "/metrics"
     
     @classmethod
     def get_batch_route(cls, batch_id: str) -> str:
+        """
+        Generate the route for a specific batch ID.
+        
+        Args:
+            batch_id: Unique identifier for the batch
+            
+        Returns:
+            str: Formatted route string
+        """
         return f"{cls.BATCH}/{batch_id}"
-    
-    @classmethod
-    def get_worker_route(cls, worker_id: str) -> str:
-        return f"{cls.WORKER}/{worker_id}"
+
+
+# Add component weights validation
+assert sum(DEFAULT_COMPONENT_WEIGHTS.values()) == 1.0, "Component weights must sum to 1.0"
+assert all(0 <= w <= 1 for w in DEFAULT_COMPONENT_WEIGHTS.values()), (
+    "Component weights must be between 0 and 1"
+)
